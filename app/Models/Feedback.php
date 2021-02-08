@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     use HasFactory;
+
+    /** @var array */
+    protected $fillable = [
+        'message',
+    ];
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
 }

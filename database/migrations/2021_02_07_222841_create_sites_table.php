@@ -15,6 +15,10 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->uuid('key');
+            $table->string('name');
+            $table->string('url');
             $table->timestamps();
         });
     }

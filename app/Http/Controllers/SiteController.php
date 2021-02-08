@@ -3,60 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return view('sites.index')->with([
+            'sites' => $request->user()->sites,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function create()
+    {
+        return view('sites.create');
+    }
+
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'url' => ['required', 'string', 'max:255'],
+        ]);
+
+        $data['key'] = Str::uuid();
+
+        $request->user()->sites()->create($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Site  $site
-     * @return \Illuminate\Http\Response
-     */
     public function show(Site $site)
+    {
+        return view('sites.show')->with([
+            'feedback' => $site->feedback,
+        ]);
+    }
+
+    public function edit(Request $request, Site $site)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Site  $site
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Site $site)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Site  $site
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Site $site)
     {
         //

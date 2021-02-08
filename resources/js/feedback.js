@@ -1,61 +1,65 @@
-require('./bootstrap');
+require('./bootstrap')
 
-import * as Pico from '@gripeless/pico';
+import * as Vue from 'vue'
+import * as Pico from '@gripeless/pico'
+
+const hostname = 'api.feedback.com'
+
+const feedbackElement = document.createElement('div')
+feedbackElement.id = 'feedback'
+document.body.appendChild(feedbackElement)
 
 const Form = {
+    data() {
+        return {
+            message: ''
+        }
+    },
     template: `
         <form role="form">
-            <textarea placeholder="Feedback goes here"></textarea>
+            <textarea v-model="message" placeholder="Feedback goes here"></textarea>
             <button type="submit">Submit</button>
             <button type="button">Screenshot</button>
         </form>
     `
 }
 
-const Feedback = {
+Vue.createApp({
     data() {
         return {
-            key: '',
-            message: 'todo',
-            submitted: false
-        };
+            key: ''
+        }
     },
     mounted() {
-        this.initKey();
-        this.createForm();
+        this.key = this.getKey()
     },
+    template: `<Form />`,
     methods: {
-        initKey() {
+        getKey() {
             const allScripts = document.getElementsByTagName('script')
+            let key = ''
 
             for (let i = 0; i < allScripts.length; i++) {
-                const currentScript = allScriptTags[i]
+                if (!allScripts[i].src.includes(hostname)) continue
 
-                if (!currentScript.src.includes('api.feedbacksaloon.com')) {
-                    continue;
-                }
-
-                this.key = currentScript.getAttribute('src').match(/\?key=(.*)$/)
+                key = allScripts[i].getAttribute('src').match(/\?key=(.*)$/)
             }
-        },
-        createForm() {
-            // document requests, etc.?
+console.log(key)
+            return key
         },
         async takeScreenshot() {
-            const screenshot = (await Pico.dataURL(window, {})).value;
-            console.log(screenshot);
-            return screenshot;
+            const screenshot = (await Pico.dataURL(window, {})).value
+            console.log(screenshot)
+            return screenshot
         },
         submit() {
-            axios.post('https://api.feedbacksaloon.com/feedback', this.message)
+            axios.post(`https://${hostname}/feedback`, this.message)
                 .then((response) => {
-                    this.submitted = true;
+                    this.submitted = true
                 })
                 .catch((err) => {
-                    this.submitted = false;
-                });
+                    this.submitted = false
+                })
         }
     }
-}
-
-Vue.createApp(Feedback);
+}).mount('#feedback')

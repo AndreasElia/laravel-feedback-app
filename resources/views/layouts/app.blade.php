@@ -32,5 +32,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <script src="{{ asset('js/feedback.js') }}"></script>
     </body>
 </html>

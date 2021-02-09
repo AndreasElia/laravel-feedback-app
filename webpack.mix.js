@@ -12,8 +12,8 @@ const mix = require('laravel-mix');
  */
 
 mix
+    .js('resources/js/feedback.js', 'public/js').vue({ version: 3 })
     .js('resources/js/app.js', 'public/js')
-    .js('resources/js/feedback.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),

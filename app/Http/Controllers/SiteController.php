@@ -35,7 +35,7 @@ class SiteController extends Controller
     public function show(Site $site)
     {
         return view('sites.show')->with([
-            'feedback' => $site->feedback,
+            'site' => $site,
         ]);
     }
 

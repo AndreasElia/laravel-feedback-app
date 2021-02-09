@@ -17,6 +17,7 @@ class CreateFeedbackTable extends Migration
             $table->id();
             $table->foreignId('site_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('message');
+            $table->text('screenshot')->nullable();
             $table->timestamps();
         });
     }

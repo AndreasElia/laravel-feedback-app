@@ -33,6 +33,7 @@
             </main>
         </div>
 
-        <script src="{{ asset('js/feedback.js') }}"></script>
+        {{-- Testing the feedback script here --}}
+        <script src="{{ asset('js/feedback.js') }}?key=976013fb-aef2-4b2c-a31c-1da4a55840a6"></script>
     </body>
 </html>

@@ -12,6 +12,7 @@ class Feedback extends Model
     /** @var array */
     protected $fillable = [
         'message',
+        'screenshot',
     ];
 
     public function site()

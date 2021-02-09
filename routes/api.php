@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/feedback', function (Request $request) {
-    dd($request->all());
+    $data = $request->validate([
+        'key' => ['required'],
+        'message' => ['required'],
+        'screenshot' => ['nullable'],
+    ]);
+
+    $site = Site::where('key', $data['key'])->firstOrFail();
+
+    $site->feedback()->create($data);
+
+    return response('OK');
 });

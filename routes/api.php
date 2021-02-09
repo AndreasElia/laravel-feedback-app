@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Site;
+use App\Http\Controllers\Api\FeedbackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,16 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/feedback', function (Request $request) {
-    $data = $request->validate([
-        'key' => ['required'],
-        'message' => ['required'],
-        'screenshot' => ['nullable'],
-    ]);
-
-    $site = Site::where('key', $data['key'])->firstOrFail();
-
-    $site->feedback()->create($data);
-
-    return response('OK');
-});
+Route::post('/feedback', FeedbackController::class);

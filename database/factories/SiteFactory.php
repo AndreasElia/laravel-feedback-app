@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Site;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SiteFactory extends Factory
@@ -22,7 +23,10 @@ class SiteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'key' => $this->faker->uuid,
+            'name' => $this->faker->domainWord,
+            'url' => $this->faker->url,
         ];
     }
 }
